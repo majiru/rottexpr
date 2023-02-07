@@ -1098,7 +1098,7 @@ void WriteBattleConfig
 
     // Write Battle File
     GetPathFromEnvironment( filename, ApogeePath, BattleName );
-    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR );
+    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC);
 
     if ( file == -1 )
     {
