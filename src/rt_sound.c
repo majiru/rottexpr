@@ -139,7 +139,8 @@ int SD_SetupFXCard ( int * numvoices, int * numbits, int * numchannels)
     card = fxnums[ FXMode ];
     if (card==-1) // Check if it is off
         return (0);
-        status=FX_SetupCard( card, &device );
+        //status=FX_SetupCard( card, &device );
+        status=FX_Ok;
         if ( status == FX_Ok )
         {
             *numvoices=device.MaxVoices;
@@ -516,9 +517,9 @@ void SD_SetSoundPitch ( int sndnum, int pitch )
     if (SD_Started==false)
         return;
 
-    FX_SetPitch( sndnum, pitch );
+    //FX_SetPitch( sndnum, pitch );
     
-    if (!FX_SoundActive(sndnum))
+   // if (!FX_SoundActive(sndnum))
         return;
 }
 
@@ -539,7 +540,7 @@ void SD_PanRTP ( int handle, int x, int y )
     if (SD_Started==false)
         return;
 
-    if (!FX_SoundActive(handle))
+    //if (!FX_SoundActive(handle))
         return;
 
     dx=(x-player->x);
@@ -573,7 +574,7 @@ void SD_SetPan ( int handle, int vol, int left, int right )
     if (SD_Started==false)
         return;
 
-    if (!FX_SoundActive(handle))
+    //if (!FX_SoundActive(handle))
         return;
 }
 
@@ -594,7 +595,7 @@ void SD_PanPositionedSound ( int handle, int px, int py, int x, int y )
     if (SD_Started==false)
         return;
 
-    if (!FX_SoundActive(handle))
+    //if (!FX_SoundActive(handle))
         return;
 
     dx=(x-px);
@@ -662,7 +663,7 @@ int SD_SoundActive ( int handle )
     }
     else
     {
-        return (FX_SoundActive(handle));
+        return false; //(FX_SoundActive(handle));
     }
 }
 
@@ -676,14 +677,15 @@ void SD_WaitSound ( int handle )
     int time;
 
     IN_ClearKeysDown();
+    return;
 
-    while (FX_SoundActive(handle)!=0)
-    {
-        time=GetTicCount()+1;
-        while (time>GetTicCount()) {}
-        if ((LastScan) || IN_GetMouseButtons())
-            break;
-    }
+    //while (FX_SoundActive(handle)!=0)
+    //{
+     //   time=GetTicCount()+1;
+     //   while (time>GetTicCount()) {}
+     //   if ((LastScan) || IN_GetMouseButtons())
+      //      break;
+    //}
 }
 
 

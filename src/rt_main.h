@@ -30,8 +30,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "rt_battl.h"
 
 #if (SHAREWARE==0)
-#define  STANDARDGAMELEVELS   (DATADIR "DARKWAR.RTL")
-#define  STANDARDBATTLELEVELS (DATADIR "DARKWAR.RTC")
+#define  STANDARDGAMELEVELS   (DATADIR "darkwar.rtl")
+#define  STANDARDBATTLELEVELS (DATADIR "darkwar.rtc")
 #define  SUPERROTTBATTLELEVELS (DATADIR "ROTTCD.RTC")
 #define  SITELICENSEBATTLELEVELS (DATADIR "ROTTSITE.RTC")
 #else

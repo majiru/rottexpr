@@ -1515,7 +1515,7 @@ int getASCII ( void )
 //
 //******************************************************************************
 
-void ScanForSavedGames ()
+void ScanForSavedGames (void)
 {
     struct find_t f;
     char filename[256];
@@ -5315,7 +5315,10 @@ void DrawScreenResolutionMenu(void)
                 snprintf(ScreenResolutions[i] , 64, "%dx%d", AvailableResolutions[i].width, AvailableResolutions[i].height);
 
             // Populate items
-            ScreenResolutionMenu[i] = (CP_itemtype){CP_Active, "", ' ', NULL};
+            ScreenResolutionMenu[i].active = CP_Active;
+            ScreenResolutionMenu[i].texture[0] = 0;
+            ScreenResolutionMenu[i].letter = ' ';
+            ScreenResolutionMenu[i].routine = NULL;
         }
 
         // Set item info

@@ -268,17 +268,17 @@ void MUSIC_Pause(void)
 int MUSIC_StopSong(void)
 {
     //if (!fx_initialized)
-    if (!Mix_QuerySpec(NULL, NULL, NULL))
-    {
+    //if (!Mix_QuerySpec(NULL, NULL, NULL))
+   // {
         setErrorMessage("Need FX system initialized, too. Sorry.");
         return(MUSIC_Error);
-    } // if
+   // } // if
 
     if ( (Mix_PlayingMusic()) || (Mix_PausedMusic()) )
         Mix_HaltMusic();
 
-    if (music_musicchunk)
-        Mix_FreeMusic(music_musicchunk);
+  //  if (music_musicchunk)
+  //      Mix_FreeMusic(music_musicchunk);
 
     music_songdata = NULL;
     music_musicchunk = NULL;
@@ -398,10 +398,10 @@ int MUSIC_PlaySongROTT(char *song, int size, int loopflag)
     music_songdata = song;
 
     // finally, we can load it with SDL_mixer
-    music_musicchunk = Mix_LoadMUS(filename);
-    if (music_musicchunk == NULL) {
+   // music_musicchunk = Mix_LoadMUS(filename);
+    //if (music_musicchunk == NULL) {
         return MUSIC_Error;
-    }
+    //}
 
     Mix_PlayMusic(music_musicchunk, (loopflag == MUSIC_PlayOnce) ? 0 : -1);
 
@@ -455,14 +455,15 @@ void MUSIC_GetSongLength(songposition *pos)
 
 int MUSIC_FadeVolume(int tovolume, int milliseconds)
 {
-    Mix_FadeOutMusic(milliseconds);
+//    Mix_FadeOutMusic(milliseconds);
     return(MUSIC_Ok);
 } // MUSIC_FadeVolume
 
 
 int MUSIC_FadeActive(void)
 {
-    return((Mix_FadingMusic() == MIX_FADING_OUT) ? __FX_TRUE : __FX_FALSE);
+    //return((Mix_FadingMusic() == MIX_FADING_OUT) ? __FX_TRUE : __FX_FALSE);
+    return 0;
 } // MUSIC_FadeActive
 
 

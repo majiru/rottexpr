@@ -151,6 +151,12 @@ extern void RecordDemoQuery ( void );
 
 extern int CountDigits(const int number);
 
+/* FIXME plan9 hacks */
+u32int sounddebugDeallocateSoundCalls;
+u32int sounddebugActiveSounds;
+int g_CV_CubicInterpolation;
+u32int sounddebugAllocateSoundCalls;
+
 int main (int argc, char *argv[])
 {
     extern char *BATTMAPS;
@@ -178,7 +184,7 @@ int main (int argc, char *argv[])
     }
 #endif
 
-    signal (11, crash_print);
+//    signal (11, crash_print);
 
     if (setup_homedir() == -1) return 1;
 
@@ -919,7 +925,7 @@ NoRTC:
 #if (SHAREWARE)
     newargs [argnum++] = DATADIR "HUNTBGIN.WAD";
 #else
-    newargs [argnum++] = DATADIR "DARKWAR.WAD";
+    newargs [argnum++] = DATADIR "darkwar.wad";
 #endif
 
 //   newargs [argnum++] = "credits.wad";
@@ -940,7 +946,7 @@ NoRTC:
     }
     else
     {
-        newargs [argnum++] = DATADIR "REMOTE1.RTS";
+        newargs [argnum++] = DATADIR "remote1.rts";
     }
 
     if (tempstr)

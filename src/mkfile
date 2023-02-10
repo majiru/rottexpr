@@ -1,0 +1,163 @@
+</$objtype/mkfile
+
+CFLAGS=-Fpw -I/sys/include/npe -I/sys/include/npe/SDL2 -D__plan9__ -D__${objtype}__ -DUSE_SDL
+TARG=games/rott
+
+LIB=\
+	../../duke3d/Game/src/audiolib/libaudio.a\
+
+
+OFILES=\
+	HashTable.$O \
+	byteordr.$O \
+	cin_actr.$O \
+	cin_efct.$O \
+	cin_evnt.$O \
+	cin_glob.$O \
+	cin_main.$O \
+	cin_util.$O \
+	dosutil.$O \
+	dukemusc.$O \
+	engine.$O \
+	isr.$O \
+	modexlib.$O \
+	queue.$O \
+	rt_actor.$O \
+	rt_battl.$O \
+	rt_build.$O \
+	rt_cfg.$O \
+	rt_com.$O \
+	rt_crc.$O \
+	rt_debug.$O \
+	rt_dmand.$O \
+	rt_door.$O \
+	rt_draw.$O \
+	rt_err.$O \
+	rt_floor.$O \
+	rt_game.$O \
+	rt_in.$O \
+	rt_main.$O \
+	rt_map.$O \
+	rt_menu.$O \
+	rt_msg.$O \
+	rt_net.$O \
+	rt_playr.$O \
+	rt_rand.$O \
+	rt_scale.$O \
+	rt_sound.$O \
+	rt_sqrt.$O \
+	rt_stat.$O \
+	rt_state.$O \
+	rt_str.$O \
+	rt_ted.$O \
+	rt_util.$O \
+	rt_vid.$O \
+	rt_view.$O \
+	scriplib.$O \
+	w_wad.$O \
+	watcom.$O \
+	winrott.$O \
+	z_zone.$O \
+
+HFILES=\
+	HashTable.h \
+	WinRott.h \
+	_engine.h \
+	_isr.h \
+	_rt_acto.h \
+	_rt_buil.h \
+	_rt_com.h \
+	_rt_dman.h \
+	_rt_door.h \
+	_rt_draw.h \
+	_rt_floo.h \
+	_rt_game.h \
+	_rt_in.h \
+	_rt_main.h \
+	_rt_map.h \
+	_rt_menu.h \
+	_rt_msg.h \
+	_rt_net.h \
+	_rt_play.h \
+	_rt_rand.h \
+	_rt_scal.h \
+	_rt_soun.h \
+	_rt_stat.h \
+	_rt_str.h \
+	_rt_ted.h \
+	_rt_util.h \
+	_rt_vid.h \
+	_w_wad.h \
+	_z_zone.h \
+	byteordr.h \
+	cin_actr.h \
+	cin_def.h \
+	cin_efct.h \
+	cin_evnt.h \
+	cin_glob.h \
+	cin_main.h \
+	cin_util.h \
+	develop.h \
+	engine.h \
+	f_scale.h \
+	fx_man.h \
+	gmove.h \
+	isr.h \
+	keyb.h \
+	lumpy.h \
+	modexlib.h \
+	music.h \
+	myprint.h \
+	profile.h \
+	queue.h \
+	rottnet.h \
+	rt_actor.h \
+	rt_battl.h \
+	rt_build.h \
+	rt_cfg.h \
+	rt_com.h \
+	rt_crc.h \
+	rt_debug.h \
+	rt_def.h \
+	rt_dmand.h \
+	rt_door.h \
+	rt_dr_a.h \
+	rt_draw.h \
+	rt_error.h \
+	rt_fc_a.h \
+	rt_floor.h \
+	rt_game.h \
+	rt_in.h \
+	rt_main.h \
+	rt_map.h \
+	rt_menu.h \
+	rt_msg.h \
+	rt_net.h \
+	rt_playr.h \
+	rt_rand.h \
+	rt_sc_a.h \
+	rt_scale.h \
+	rt_sound.h \
+	rt_sqrt.h \
+	rt_stat.h \
+	rt_str.h \
+	rt_table.h \
+	rt_ted.h \
+	rt_util.h \
+	rt_vh_a.h \
+	rt_vid.h \
+	rt_view.h \
+	scriplib.h \
+	snd_reg.h \
+	snd_shar.h \
+	sndcards.h \
+	sprites.h \
+	states.h \
+	task_man.h \
+	version.h \
+	w_wad.h \
+	watcom.h \
+	z_zone.h \
+
+</sys/src/cmd/mkone
+

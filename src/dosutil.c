@@ -26,6 +26,39 @@
 int _argc;
 char **_argv;
 
+#if defined(__plan9__)
+
+long filelength(int handle)
+{
+    Dir *d;
+    long x;
+
+    d = dirfstat(handle);
+    assert(d != nil);
+    x = d->length;
+    free(d);
+    return x;
+}
+
+char *ultoa(unsigned long value, char *string, int radix)
+{
+    switch (radix) {
+    case 10:
+        sprintf(string, "%lu", value);
+        break;
+    case 16:
+        sprintf(string, "%lux", value);
+        break;
+    default:
+        STUB_FUNCTION;
+        break;
+    }
+
+    return string;
+}
+
+#endif
+
 #if PLATFORM_UNIX
 long filelength(int handle)
 {
@@ -232,7 +265,7 @@ void DisplayTextSplash(byte *text, int l)
     printf ("\033[m");
 }
 
-#if !defined(__CYGWIN__) && !defined(__MINGW32__) && !defined(__ANDROID__)
+#if !defined(__CYGWIN__) && !defined(__MINGW32__) && !defined(__ANDROID__) && !defined(__plan9__)
 #include <execinfo.h>
 
 void print_stack (int level)

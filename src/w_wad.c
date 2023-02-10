@@ -123,7 +123,7 @@ void W_AddFile (char *_filename)
         header.numlumps = IntelLong(LONG(header.numlumps));
         header.infotableofs = IntelLong(LONG(header.infotableofs));
         length = header.numlumps*sizeof(filelump_t);
-        fileinfo = alloca (length);
+        fileinfo = malloc (length);
         if (!fileinfo)
             Error ("Wad file could not allocate header info on stack");
         lseek (handle, header.infotableofs, SEEK_SET);

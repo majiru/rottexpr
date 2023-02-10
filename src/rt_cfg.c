@@ -1454,7 +1454,7 @@ void WriteSoundConfig
     }
 
     GetPathFromEnvironment( filename, ApogeePath, SoundName );
-    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR );
+    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC);
 
     //file = open ( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC );
 
@@ -1570,7 +1570,7 @@ void WriteConfig (void)
 
     GetPathFromEnvironment( filename, ApogeePath, ConfigName );
     
-    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR );
+    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC);
 
     //file = open( filename,O_RDWR | O_TEXT | O_CREAT | O_TRUNC );
 

@@ -18,13 +18,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <SDL2/SDL_scancode.h>
-#include <SDL2/SDL_keycode.h>
-#include <SDL2/SDL_mouse.h>
 
 #if USE_SDL
 #include "SDL2/SDL.h"
 #endif
+
+#include <SDL2/SDL_scancode.h>
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_events.h>
 
 #include "rt_main.h"
 #include "rt_def.h"
@@ -678,6 +679,11 @@ boolean INL_StartJoy (word joy)
 {
     word x,y;
 
+
+#ifdef __plan9__
+    return(false);
+#else
+
 #if USE_SDL
     if (!SDL_WasInit(SDL_INIT_JOYSTICK))
     {
@@ -713,6 +719,7 @@ boolean INL_StartJoy (word joy)
         IN_SetupJoy (joy, 0, x * 2, 0, y * 2);
         return (true);
     }
+#endif
 }
 
 

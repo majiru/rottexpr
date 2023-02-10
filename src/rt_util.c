@@ -31,7 +31,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <time.h>
-#include <SDL2/SDL_render.h>
+//#include <SDL2/SDL_render.h>
 #include "watcom.h"
 #include "_rt_util.h"
 #include "rt_util.h"
@@ -547,7 +547,7 @@ int SafeOpenAppend (char *_filename)
     filename[sizeof (filename) - 1] = '\0';
     FixFilePath(filename);
 
-    handle = open(filename,O_RDWR | O_BINARY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR );
+    handle = open(filename,O_RDWR | O_BINARY | O_CREAT | O_APPEND);
 
     if (handle == -1)
         Error ("Error opening for append %s: %s",filename,strerror(errno));
@@ -563,7 +563,7 @@ int SafeOpenWrite (char *_filename)
     filename[sizeof (filename) - 1] = '\0';
     FixFilePath(filename);
 
-    handle = open(filename,O_RDWR | O_BINARY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR );
+    handle = create(filename,ORDWR, 0666);
 
     
     //handle = open(filename,O_RDWR | O_BINARY | O_CREAT | O_TRUNC );
@@ -814,7 +814,7 @@ int _dos_findnext(struct find_t *f)
     return(0);
 }
 
-#elif PLATFORM_UNIX
+#elif PLATFORM_UNIX || defined(__plan9__)
 int _dos_findfirst(char *filename, int x, struct find_t *f)
 {
     char *ptr;
@@ -1395,16 +1395,17 @@ int SideOfLine(int x1, int y1, int x2, int y2, int x3, int y3)
 //
 //******************************************************************************
 
-typedef int (*PFI)();           /* pointer to a function returning int  */
-typedef void (*PFV)();           /* pointer to a function returning int  */
+typedef int (*PFI)(char*,char*);           /* pointer to a function returning int  */
+typedef void (*PFV)(char*,char*);           /* pointer to a function returning int  */
 static PFI Comp;                        /* pointer to comparison routine                */
 static PFV Switch;                        /* pointer to comparison routine                */
 static int Width;                       /* width of an object in bytes                  */
 static char *Base;                      /* pointer to element [-1] of array             */
 
 
-static void newsift_down(L,U) int L,U;
-{   int c;
+static void newsift_down(int L,int U)
+{
+    int c;
 
     while(1)
     {   c=L+L;

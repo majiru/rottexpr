@@ -24,7 +24,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <ctype.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <SDL2/SDL_video.h>
+#include <SDL2/SDL.h>
 #include "modexlib.h"
 #include "rt_util.h"
 #include "rt_net.h" // for GamePaused
@@ -36,7 +36,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //#include <SDL2/SDL_image.h>
 
 
-static void StretchMemPicture ();
+static void StretchMemPicture (void);
 // GLOBAL VARIABLES
 
 boolean StretchScreen=0;//bn�++
@@ -76,7 +76,7 @@ boolean graphicsmode=false;
 char        *bufofsTopLimit;
 char        *bufofsBottomLimit;
 
-void DrawCenterAim ();
+void DrawCenterAim (void);
 
 #ifndef STUB_FUNCTION
 
@@ -120,7 +120,7 @@ void GraphicsMode ( void )
     
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
-    sdl_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888,
+    sdl_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
                                     SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH,
                                     iGLOBAL_SCREENHEIGHT);
     
@@ -143,15 +143,17 @@ void GraphicsMode ( void )
 */
 void SetTextMode ( void )
 {
+/*
     if (SDL_WasInit(SDL_INIT_VIDEO) == SDL_INIT_VIDEO) {
         if (sdl_surface != NULL) {
             SDL_FreeSurface(sdl_surface);
 
             sdl_surface = NULL;
         }
+*/
 
         SDL_QuitSubSystem (SDL_INIT_VIDEO);
-    }
+//    }
 }
 
 /*
@@ -270,9 +272,11 @@ void VL_ClearVideo (byte color)
     memset (sdl_surface->pixels, color, iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
 }
 
+/*
 void RescaleAreaOfTexture(SDL_Renderer* renderer, SDL_Texture * source, SDL_Rect src, SDL_Rect dest)
 {
-    SDL_Texture * sourceToResize = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, src.w, src.h);          
+    SDL_Texture * sourceToResize = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, src.w, src.h);          
+    SDL_
     SDL_SetRenderTarget(renderer, sourceToResize);
     SDL_RenderCopy(renderer, source, &src, NULL);
     // the folowing line should reset the target to default(the screen)
@@ -281,6 +285,7 @@ void RescaleAreaOfTexture(SDL_Renderer* renderer, SDL_Texture * source, SDL_Rect
     SDL_RenderCopy(renderer, sourceToResize, NULL, &dest);
     SDL_DestroyTexture(sourceToResize);
 }
+*/
 
 int hudRescaleFactor = 1;
 
@@ -298,6 +303,7 @@ void RenderSurface(void)
     
     SDL_RenderCopy(renderer, newTex, NULL, NULL);
     
+/*
     if (!StretchScreen && hudRescaleFactor > 1 && doRescaling)
     {
         if(SHOW_TOP_STATUS_BAR())
@@ -308,6 +314,7 @@ void RenderSurface(void)
                (SDL_Rect) {(iGLOBAL_SCREENWIDTH - (320* hudRescaleFactor)) >> 1, iGLOBAL_SCREENHEIGHT - 16*hudRescaleFactor, 320*hudRescaleFactor, 16*hudRescaleFactor}); //Bottom Bar
                    
     }
+*/
     
     SDL_RenderPresent(renderer);
     
@@ -320,11 +327,11 @@ void RenderSurface(void)
 void VH_UpdateScreen (void)
 {
 
-    if (StretchScreen) { //bna++
-        StretchMemPicture ();
-    } else {
+//    if (StretchScreen) { //bna++
+//        StretchMemPicture ();
+//    } else {
         DrawCenterAim ();
-    }
+//    }
     
     RenderSurface();
     
@@ -341,11 +348,11 @@ void VH_UpdateScreen (void)
 
 void XFlipPage ( void )
 {
-    if (StretchScreen) { //bna++
-        StretchMemPicture ();
-    } else {
+//    if (StretchScreen) { //bna++
+//        StretchMemPicture ();
+//    } else {
         DrawCenterAim ();
-    }
+//    }
     RenderSurface();
     
 }
@@ -398,7 +405,7 @@ void DisableHudStretch(void)
 }
 
 // bna section -------------------------------------------
-static void StretchMemPicture ()
+static void StretchMemPicture (void)
 {
     SDL_Rect src;
     SDL_Rect dest;
@@ -412,7 +419,7 @@ static void StretchMemPicture ()
     dest.y = 0;
     dest.w = iGLOBAL_SCREENWIDTH;
     dest.h = iGLOBAL_SCREENHEIGHT;
-    SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest);
+    //SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest);
     SDL_RenderSetLogicalSize(renderer, 320, 200); //help keep aspect ratio of menus so that the game doesn't look stretched
     
 }
@@ -422,7 +429,7 @@ extern	boolean ingame;
 extern exit_t playstate;
 int		iG_playerTilt;
 
-void DrawCenterAim ()
+void DrawCenterAim (void)
 {
     int x;
 
@@ -525,7 +532,8 @@ void DoScreenRotateScale(int w, int h, SDL_Texture * tex, float angle, float sca
         
     output.y = (iGLOBAL_SCREENHEIGHT - output.h)>>1;
     
-    SDL_RenderCopyEx(renderer, tex, NULL, &output, angle, NULL, SDL_FLIP_NONE);
+    //SDL_RenderCopyEx(renderer, tex, NULL, &output, angle, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopy(renderer, tex, NULL, NULL);
         
     SDL_RenderPresent(renderer);
 

@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "develop.h"
 #define SAVE_SCREEN  1
 
-#if PLATFORM_UNIX
+#if PLATFORM_UNIX || defined(__plan9__)
 #include <unistd.h>
 #include <sys/types.h>
 #include <limits.h>
@@ -44,6 +44,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define F_OK  0
 #elif (defined __GNUC__)
 #define __int64 long long
+#elif (defined __plan9__)
+#define __int64 vlong
 #else
 #error please define your platform.
 #endif
@@ -51,7 +53,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #if PLATFORM_WIN32
 #define PATH_SEP_CHAR '\\'
 #define PATH_SEP_STR  "\\"
-#elif PLATFORM_UNIX
+#elif PLATFORM_UNIX || defined(__plan9__)
 #define PATH_SEP_CHAR '/'
 #define PATH_SEP_STR  "/"
 #define ROOTDIR       "/"
@@ -116,7 +118,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #if PLATFORM_WIN32
 #define strcmpi(x, y) stricmp(x, y)
 #define _fstricmp(x, y) stricmp(x, y)
-#elif PLATFORM_UNIX
+#elif PLATFORM_UNIX || defined(__plan9__)
 #ifndef strcmpi
 #define strcmpi(x, y) strcasecmp(x, y)
 #endif
@@ -139,7 +141,14 @@ long filelength(int handle);
 #error please define for your platform.
 #endif
 
+#ifdef __plan9__
+#define STUB_FUNCTION fprintf(stderr, "STUB")
+#define O_CREAT OTRUNC
+#define O_APPEND 0
+#define lseek seek
+#else
 #define STUB_FUNCTION fprintf(stderr,"STUB: %s at " __FILE__ ", line %d, thread %d\n",__FUNCTION__,__LINE__,getpid())
+#endif
 
 #define far
 #define cdecl

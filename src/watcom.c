@@ -19,7 +19,7 @@ fixed FixedMulShift(fixed a, fixed b, fixed shift)
     __int64 y = b;
     __int64 z = x * y;
 
-    return (((unsigned __int64)z) >> shift) & 0xffffffff;
+    return (((uvlong)z) >> shift) & 0xffffffff;
 }
 
 fixed FixedDiv2(fixed a, fixed b)
