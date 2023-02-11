@@ -30,7 +30,7 @@
 
 #endif
 
-static __inline unsigned short _swap16(unsigned short D)
+static unsigned short _swap16(unsigned short D)
 {
 #if PLATFORM_MACOSX
     register unsigned short returnValue;
@@ -44,7 +44,7 @@ static __inline unsigned short _swap16(unsigned short D)
 #endif
 }
 
-static __inline unsigned int _swap32(unsigned int D)
+static unsigned int _swap32(unsigned int D)
 {
 #if PLATFORM_MACOSX
     register unsigned int returnValue;

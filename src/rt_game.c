@@ -4508,7 +4508,7 @@ void Died (void)
         else if (rng < 192)
         {
             //RotateBuffer(0, (FINEANGLES*4), (FINEANGLES), (FINEANGLES*64), (VBLCOUNTER*(3+slowrate)));
-            RotateScreenScaleFloat(0, (360.0*3), 1.0, 0.01875, (VBLCOUNTER*(3+slowrate)), true, false);
+            //RotateScreenScaleFloat(0, (360.0*3), 1.0, 0.01875, (VBLCOUNTER*(3+slowrate)), true, false);
         }
         //fade to red
         else{
