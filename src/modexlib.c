@@ -48,6 +48,8 @@ char 	   *iG_buf_center;
 
 
 SDL_Surface *sdl_surface = NULL;
+SDL_Surface *rgba_surface = NULL;
+SDL_Texture *texture = NULL;
 
 SDL_Window * window = NULL;
 
@@ -96,13 +98,13 @@ void GraphicsMode ( void )
 {
     Uint32 flags = 0;
 
-    if (SDL_InitSubSystem (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+    if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         Error ("Could not initialize SDL\n");
     }
     
-    SDL_SetRelativeMouseMode(SDL_TRUE);
     
+    //SDL_SetRelativeMouseMode(SDL_TRUE);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     if (sdl_fullscreen)
         flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
@@ -125,7 +127,8 @@ void GraphicsMode ( void )
                                     iGLOBAL_SCREENHEIGHT);
     
     sdl_surface = SDL_CreateRGBSurface(0,iGLOBAL_SCREENWIDTH,iGLOBAL_SCREENHEIGHT,8,0,0,0,0);
-    
+    rgba_surface = SDL_CreateRGBSurface(0,iGLOBAL_SCREENWIDTH,iGLOBAL_SCREENHEIGHT,32,0,0,0,0);
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
     
          
     SDL_SetSurfaceRLE(sdl_surface, 1);
@@ -291,6 +294,14 @@ int hudRescaleFactor = 1;
 
 void RenderSurface(void)
 {
+    SDL_BlitSurface(sdl_surface, NULL, rgba_surface, NULL);
+    SDL_UpdateTexture(texture, NULL, rgba_surface->pixels, rgba_surface->pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
+
+    return;
+
     SDL_Texture * newTex = SDL_CreateTextureFromSurface(renderer, sdl_surface);
     
     if (newTex == NULL) 
@@ -359,12 +370,12 @@ void XFlipPage ( void )
 
 void EnableScreenStretch(void)
 {
+
+/*
     if (iGLOBAL_SCREENWIDTH <= 320 || StretchScreen) return;
 
     if (unstretch_sdl_surface == NULL)
     {
-        /* should really be just 320x200, but there is code all over the
-           places which crashes then */
         unstretch_sdl_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
                                 iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
     }
@@ -376,6 +387,7 @@ void EnableScreenStretch(void)
     page2start = unstretch_sdl_surface->pixels;
     page3start = unstretch_sdl_surface->pixels;
     StretchScreen = 1;
+*/
 }
 
 void DisableScreenStretch(void)
