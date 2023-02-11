@@ -1530,6 +1530,8 @@ void ScanForSavedGames (void)
     memset (&SaveGamesAvail[0], 0, sizeof (SaveGamesAvail));
 #if PLATFORM_WIN32
     GetPathFromEnvironment( filename, ApogeePath, SaveName );
+#elif defined(__plan9__)
+    strncpy(filename, SaveName, 256);
 #else
     strncpy (filename, SaveName, 256);
     pathsave = getcwd (NULL, 0);
@@ -1558,7 +1560,7 @@ void ScanForSavedGames (void)
     }
     else
         MainMenu[loadgame].active = CP_Inactive;
-#if !PLATFORM_WIN32
+#if !PLATFORM_WIN32 && !defined(__plan9__)
     chdir (pathsave);
     free (pathsave);
 #endif
