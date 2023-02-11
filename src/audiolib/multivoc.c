@@ -556,7 +556,7 @@ void MV_ServiceRightGus( char **ptr, unsigned long *length )
 
    Interperate the information of a VOC format sound file.
 ---------------------------------------------------------------------*/
-static __inline unsigned int get_le32(void *p0)
+static unsigned int get_le32(void *p0)
 {
 	//unsigned char *p = p0;
 	//return p[0] | (p[1]<<8) | (p[2]<<16) | (p[3]<<24);
@@ -564,7 +564,7 @@ static __inline unsigned int get_le32(void *p0)
 	return(BUILDSWAP_INTEL32(val));
 }
 
-static __inline unsigned int get_le16(void *p0)
+static unsigned int get_le16(void *p0)
 {
 	//unsigned char *p = p0;
 	//return p[0] | (p[1]<<8);
@@ -720,7 +720,7 @@ playbackstatus MV_GetNextVOCBlock
             if ( voice->LoopEnd == NULL )
                {
                voice->LoopCount = get_le16(ptr);
-               voice->LoopStart = ptr + blocklength;
+               voice->LoopStart = (char*)ptr + blocklength;
                }
             ptr += blocklength;
             break;
@@ -736,7 +736,7 @@ playbackstatus MV_GetNextVOCBlock
                {
                if ( ( voice->LoopCount > 0 ) && ( voice->LoopStart != NULL ) )
                   {
-                  ptr = voice->LoopStart;
+                  ptr = (uchar*)voice->LoopStart;
                   if ( voice->LoopCount < 0xffff )
                      {
                      voice->LoopCount--;
@@ -799,8 +799,8 @@ playbackstatus MV_GetNextVOCBlock
 
    if ( voice->Playing )
       {
-      voice->NextBlock    = ptr + blocklength;
-      voice->sound        = ptr;
+      voice->NextBlock    = (char*)ptr + blocklength;
+      voice->sound        = (char*)ptr;
 
       voice->SamplingRate = samplespeed;
       voice->RateScale    = ( voice->SamplingRate * voice->PitchScale ) / MV_MixRate;
@@ -2279,7 +2279,7 @@ int MV_PlayLoopedWAV
       return( MV_Error );
       }
 
-   if ( strncmp( data->DATA, "data", 4 ) != 0 )
+   if ( strncmp( (char*)data->DATA, "data", 4 ) != 0 )
       {
       MV_SetErrorCode( MV_InvalidWAVFile );
       return( MV_Error );

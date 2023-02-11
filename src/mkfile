@@ -1,11 +1,9 @@
 </$objtype/mkfile
 
-CFLAGS=-Fpw -I/sys/include/npe -I/sys/include/npe/SDL2 -D__plan9__ -D__${objtype}__ -DUSE_SDL
+CFLAGS=-Fpw -I/sys/include/npe -I/sys/include/npe/SDL2 -D__plan9__ -D__${objtype}__ -DUSE_SDL -DSHAREWARE=0
 TARG=games/rott
 
-LIB=\
-	../../duke3d/Game/src/audiolib/libaudio.a\
-
+LIB=audiolib/libaudio.a
 
 OFILES=\
 	HashTable.$O \

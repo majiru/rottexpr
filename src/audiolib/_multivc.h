@@ -69,7 +69,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define NumberOfBuffers   16
 #define TotalBufferSize   ( MixBufferSize * NumberOfBuffers )
 
+#ifdef __plan9__
+#undef PI
 #define PI                3.1415926536
+#endif
 
 typedef enum
    {
