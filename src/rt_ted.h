@@ -46,6 +46,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #define MAXTEAMS 11
 
+#pragma pack on
+
 typedef struct
 {
     int nummembers;
@@ -111,6 +113,8 @@ typedef struct
     byte points_to_tiley;
     int linkindex;
 } str_clock;
+
+#pragma pack off
 
 
 extern int  numareatiles[NUMAREAS+1];

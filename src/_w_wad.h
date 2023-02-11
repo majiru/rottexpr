@@ -43,6 +43,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //   TYPES
 //===============
 
+#pragma pack on
 
 typedef struct
 {
@@ -66,5 +67,7 @@ typedef struct
     int             size;
     char            name[8];
 } filelump_t;
+
+#pragma pack off
 
 #endif

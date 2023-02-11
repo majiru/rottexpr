@@ -30,6 +30,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define NORMAL_SIGNATURE  ( "RTL" )
 #define RTL_HEADER_OFFSET 8
 
+#pragma pack on
+
 typedef struct
 {
     int  lump;
@@ -54,6 +56,8 @@ typedef struct
     word  width,height;
     char            name[16];
 } maptype;
+
+#pragma pack off
 
 #define ActorIsPushWall(xx,yy)   ((actorat[xx][yy])&&(((objtype *)actorat[xx][yy])->which==PWALL) )
 #define ActorIsWall(xx,yy)   ((actorat[xx][yy])&&(((objtype *)actorat[xx][yy])->which==WALL) )
