@@ -2549,7 +2549,7 @@ void      ThreeDRefresh (void)
         DrawPlayScreen (true);
         //void RotateScreen(int startAngle, int endAngle, int startScale, int endScale, int time);
         
-        RotateScreenScaleFloat(0, 360, 0.01875, 1.0, (VBLCOUNTER*3)/4, false, true);
+        //RotateScreenScaleFloat(0, 360, 0.01875, 1.0, (VBLCOUNTER*3)/4, false, true);
 
         //RotateScreen(0,FINEANGLES,FINEANGLES,FINEANGLES*8,(VBLCOUNTER*3)/4, 0, false);
         //RotateBuffer(0,FINEANGLES,FINEANGLES*8,FINEANGLES,(VBLCOUNTER*3)/4);
