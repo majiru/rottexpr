@@ -370,7 +370,7 @@ void PreCachePlayerSound(void)
 
 
 #define IS_ALTERNATE_ACTOR(ob)                                 \
-        ((ob->shapeoffset - deathshapeoffset[ob->obclass]) > 0)\
+        (0)\
 
 /*
 ======================
