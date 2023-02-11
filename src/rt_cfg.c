@@ -1098,7 +1098,7 @@ void WriteBattleConfig
 
     // Write Battle File
     GetPathFromEnvironment( filename, ApogeePath, BattleName );
-    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC);
+    file = create( filename, O_RDWR, 0666);
 
     if ( file == -1 )
     {
@@ -1454,7 +1454,7 @@ void WriteSoundConfig
     }
 
     GetPathFromEnvironment( filename, ApogeePath, SoundName );
-    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC);
+    file = create( filename, O_RDWR, 0666);
 
     //file = open ( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC );
 
@@ -1570,7 +1570,7 @@ void WriteConfig (void)
 
     GetPathFromEnvironment( filename, ApogeePath, ConfigName );
     
-    file = open( filename, O_RDWR | O_TEXT | O_CREAT | O_TRUNC);
+    file = create( filename, O_RDWR, 0666);
 
     //file = open( filename,O_RDWR | O_TEXT | O_CREAT | O_TRUNC );
 
