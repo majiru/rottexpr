@@ -398,10 +398,10 @@ int MUSIC_PlaySongROTT(char *song, int size, int loopflag)
     music_songdata = song;
 
     // finally, we can load it with SDL_mixer
-   // music_musicchunk = Mix_LoadMUS(filename);
-    //if (music_musicchunk == NULL) {
+   music_musicchunk = Mix_LoadMUS(filename);
+   if (music_musicchunk == NULL) {
         return MUSIC_Error;
-    //}
+    }
 
     Mix_PlayMusic(music_musicchunk, (loopflag == MUSIC_PlayOnce) ? 0 : -1);
 

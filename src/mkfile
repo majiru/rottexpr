@@ -1,7 +1,10 @@
 </$objtype/mkfile
 
 CFLAGS=-Fpw -I/sys/include/npe -I/sys/include/npe/SDL2 -D__plan9__ -D__${objtype}__ -DUSE_SDL -DSHAREWARE=0
-TARG=games/rott
+BIN=/$objtype/bin/games
+TARG=rott
+
+DIRS=audiolib
 
 LIB=audiolib/libaudio.a
 
@@ -159,3 +162,11 @@ HFILES=\
 
 </sys/src/cmd/mkone
 
+audiolib/libaudio.a:
+	@{ cd audiolib && mk }
+
+clean:V:
+	rm -f *.[$OS] [$OS].out y.tab.? lex.yy.c y.debug y.output $TARG $CLEANFILES
+	for(i in $DIRS)@{
+		cd $i && mk clean
+	}

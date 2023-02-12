@@ -164,6 +164,8 @@ int main (int argc, char *argv[])
     _argc = argc;
     _argv = argv;
 
+    Mix_Init(1);
+
 #if defined(PLATFORM_MACOSX)
     {
         /* OS X will give us a path in the form '/Applications/Rise of the Triad.app/Contents/MacOS/Rise of the Triad'.
@@ -1632,7 +1634,7 @@ void QuitGame ( void )
         while (GetTicCount()==time) {}
     }
     
-    
+    Mix_HaltMusic();
     PrintMapStats();
     PrintTileStats();
     SetTextMode();

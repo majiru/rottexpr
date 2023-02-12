@@ -3,6 +3,7 @@
 CFLAGS=-Fpw -I/sys/include/npe -I/sys/include/npe/SDL2 -D__plan9__ -D__${objtype}__ -DUSE_SDL -DSHAREWARE=0
 
 LIB=libaudio.a
+CLEANFILES=libaudio.a
 
 OFILES=\
 	fx_man.$O\
