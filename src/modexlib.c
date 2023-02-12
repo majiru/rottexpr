@@ -122,7 +122,7 @@ void GraphicsMode ( void )
     }
     
     
-    //SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     if (sdl_fullscreen)
         flags = SDL_WINDOW_FULLSCREEN_DESKTOP;

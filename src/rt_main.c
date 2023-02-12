@@ -336,7 +336,7 @@ int main (int argc, char *argv[])
     
     if (mouseenabled)
     {
-        //SDL_SetRelativeMouseMode(SDL_TRUE);
+        SDL_SetRelativeMouseMode(SDL_TRUE);
     }
 
 //   SetTextMode();
