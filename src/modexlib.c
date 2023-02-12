@@ -49,6 +49,7 @@ char 	   *iG_buf_center;
 
 SDL_Surface *sdl_surface = NULL;
 SDL_Surface *rgba_surface = NULL;
+SDL_Rect screenrect;
 SDL_Texture *texture = NULL;
 
 SDL_Window * window = NULL;
@@ -87,6 +88,23 @@ void DrawCenterAim (void);
 
 #endif
 
+static void
+resetscreen(int x, int y)
+{
+	if(sdl_surface != NULL)
+		SDL_FreeSurface(sdl_surface);
+	sdl_surface = SDL_CreateRGBSurface(0,x,y,8,0,0,0,0);
+	if(rgba_surface != NULL)
+		SDL_FreeSurface(rgba_surface);
+	rgba_surface = SDL_CreateRGBSurface(0,x,y,32,0,0,0,0);
+	//if(texture != NULL)
+		//SDL_FreeTexture(texture);
+	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, x, y);
+	SDL_RenderSetLogicalSize(renderer, x, y);
+	screenrect.w = x;
+	screenrect.h = y;
+}
+
 /*
 ====================
 =
@@ -121,19 +139,10 @@ void GraphicsMode ( void )
     }
     
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    
-    sdl_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-                                    SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH,
-                                    iGLOBAL_SCREENHEIGHT);
-    
-    sdl_surface = SDL_CreateRGBSurface(0,iGLOBAL_SCREENWIDTH,iGLOBAL_SCREENHEIGHT,8,0,0,0,0);
-    rgba_surface = SDL_CreateRGBSurface(0,iGLOBAL_SCREENWIDTH,iGLOBAL_SCREENHEIGHT,32,0,0,0,0);
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
-    
          
     SDL_SetSurfaceRLE(sdl_surface, 1);
                                         
-    SDL_RenderSetLogicalSize(renderer, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
+    resetscreen(iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
     
 }
 
@@ -294,7 +303,10 @@ int hudRescaleFactor = 1;
 
 void RenderSurface(void)
 {
-    SDL_BlitSurface(sdl_surface, NULL, rgba_surface, NULL);
+    if(screenrect.w == iGLOBAL_SCREENWIDTH && screenrect.h == iGLOBAL_SCREENHEIGHT)
+    	SDL_BlitSurface(sdl_surface, &screenrect, rgba_surface, NULL);
+    else
+        SDL_SoftStretch(sdl_surface, &screenrect, rgba_surface, NULL);
     SDL_UpdateTexture(texture, NULL, rgba_surface->pixels, rgba_surface->pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -370,9 +382,25 @@ void XFlipPage ( void )
 
 void EnableScreenStretch(void)
 {
+ 
+    if (iGLOBAL_SCREENWIDTH <= 320 || StretchScreen) return;
+
+    StretchScreen = 1;
+    screenrect.x = 0;
+    screenrect.y = 0;
+    screenrect.w = 320;
+    screenrect.h = 200;
+    return;
+
 
 /*
-    if (iGLOBAL_SCREENWIDTH <= 320 || StretchScreen) return;
+    displayofs = sdl_surface->pixels;
+    bufferofs  = sdl_surface->pixels;
+    page1start = sdl_surface->pixels;
+    page2start = sdl_surface->pixels;
+    page3start = sdl_surface->pixels;
+    StretchScreen = 1;
+
 
     if (unstretch_sdl_surface == NULL)
     {
@@ -394,14 +422,12 @@ void DisableScreenStretch(void)
 {
     if (iGLOBAL_SCREENWIDTH <= 320 || !StretchScreen) return;
 
-    displayofs = sdl_surface->pixels +
-                 (displayofs - (byte *)unstretch_sdl_surface->pixels);
-    bufferofs  = sdl_surface->pixels;
-    page1start = sdl_surface->pixels;
-    page2start = sdl_surface->pixels;
-    page3start = sdl_surface->pixels;
     StretchScreen = 0;
-    SDL_RenderSetLogicalSize(renderer, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
+    screenrect.x = 0;
+    screenrect.y = 0;
+    screenrect.w = iGLOBAL_SCREENWIDTH;
+    screenrect.h = iGLOBAL_SCREENHEIGHT;
+    //SDL_RenderSetLogicalSize(renderer, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT);
     //SDL_RenderSetLogicalSize(renderer, 320, 200);
     
 }
