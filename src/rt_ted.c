@@ -2296,32 +2296,31 @@ void RespawnPlayerobj(objtype *ob)
 
 }
 
-#define SetupSpecificFlagTeamAt(whichteam, spawnlocindex) \
-{int newx,newy;                                           \
-                                                          \
- newx = SPAWNLOC[spawnlocindex].x;                        \
- newy = SPAWNLOC[spawnlocindex].y;                        \
- TEAM[whichteam].tilex = newx;                            \
- TEAM[whichteam].tiley = newy;                            \
- TEAM[whichteam].dir = SPAWNLOC[spawnlocindex].x;         \
- SpawnStatic(newx,newy,stat_collector,9);                  \
- SpawnNewObj(newx,newy,&s_basemarker1,inertobj);          \
- LASTACTOR->z = LASTSTAT->z;                              \
- LASTSTAT->flags |= FL_COLORED;                           \
- LASTSTAT->hitpoints = whichteam;                         \
- locspawned[spawnlocindex]=1;                             \
- for(j=0;j<numplayers;j++)                                \
-    {if (PLAYERSTATE[j].uniformcolor !=                   \
-         TEAM[whichteam].uniformcolor)                    \
-        continue;                                         \
-                                                          \
-     ntilex = newx;                                       \
-     ntiley = newy;                                       \
-     FindEmptyTile(&ntilex,&ntiley);                      \
-     SpawnPlayerobj(ntilex,ntiley,dir,j);                 \
-    }                                                     \
-}                                                         \
+void
+SetupSpecificFlagTeamAt(int whichteam, int spawnlocindex, int *locspawned, int dir)
+{    int newx,newy,ntilex,ntiley,j;
 
+    newx = SPAWNLOC[spawnlocindex].x;
+    newy = SPAWNLOC[spawnlocindex].y;
+    TEAM[whichteam].tilex = newx;
+    TEAM[whichteam].tiley = newy;
+    TEAM[whichteam].dir = SPAWNLOC[spawnlocindex].x;
+    SpawnStatic(newx,newy,stat_collector,9);
+    SpawnNewObj(newx,newy,&s_basemarker1,inertobj);
+    LASTACTOR->z = LASTSTAT->z;
+    LASTSTAT->flags |= FL_COLORED;
+    LASTSTAT->hitpoints = whichteam;
+    locspawned[spawnlocindex]=1;
+    for(j=0;j<numplayers;j++)
+        {if (PLAYERSTATE[j].uniformcolor !=
+             TEAM[whichteam].uniformcolor)
+            continue;
+         ntilex = newx;
+         ntiley = newy;
+         FindEmptyTile(&ntilex,&ntiley);
+         SpawnPlayerobj(ntilex,ntiley,dir,j);
+    }
+}
 
 /*
 =============
@@ -2376,8 +2375,9 @@ void AssignTeams(void)
 
 void SetupTeams(void)
 {
+    teamtype *tt;
 
-    int i,j,rand,sx,sy,ntilex,ntiley,dir,
+    int i,j,rand,sx,sy,dir,
         maxdist,currdist,spawnindex,cnt;
     int locspawned[MAXSPAWNLOCATIONS] = {0};
 
@@ -2389,10 +2389,11 @@ void SetupTeams(void)
             sy = SPAWNLOC[rand].y;
             dir = SPAWNLOC[rand].dir;
 
+            tt = &TEAM[0];
             if (CheckTile(sx,sy) && (!IsPlatform(sx,sy)) &&
-                    (Number_of_Empty_Tiles_In_Area_Around(sx,sy) > TEAM[0].nummembers)
+                    (Number_of_Empty_Tiles_In_Area_Around(sx,sy) > tt->nummembers)
                )
-            {   SetupSpecificFlagTeamAt(0,rand);
+            {   SetupSpecificFlagTeamAt(0,rand,locspawned,dir);
                 break;
             }
 
@@ -2411,19 +2412,21 @@ void SetupTeams(void)
             sy = SPAWNLOC[i].y;
             dir = SPAWNLOC[i].dir;
 
-            if ((Number_of_Empty_Tiles_In_Area_Around(sx,sy) < TEAM[1].nummembers)
+            tt = &TEAM[1];
+            if ((Number_of_Empty_Tiles_In_Area_Around(sx,sy) < tt->nummembers)
                     || (!CheckTile(sx,sy) || IsPlatform(sx,sy))
                )
                 continue;
 
-            currdist = FindDistance(sx-TEAM[0].tilex,sy-TEAM[0].tiley);
+            tt = &TEAM[0];
+            currdist = FindDistance(sx-tt->tilex,sy-tt->tiley);
             if (currdist > maxdist)
             {   maxdist = currdist;
                 spawnindex = i;
             }
         }
 
-        SetupSpecificFlagTeamAt(1,spawnindex);
+        SetupSpecificFlagTeamAt(1,spawnindex,locspawned,dir);
     }
     else
     {
